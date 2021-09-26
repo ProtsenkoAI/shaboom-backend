@@ -11,6 +11,9 @@ matplotlib = "*"
 pandas = "*"
 sounddevice = "*"
 demucs = "*"
+tflite-support = "*"
+fastapi = "*"
+uvicorn = "*"
 
 [dev-packages]
 
