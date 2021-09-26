@@ -1,5 +1,6 @@
 data/
 server_data/
+notebooks/*.json
 models/
 **/.ipynb_checkpoints
 **/*.wav
