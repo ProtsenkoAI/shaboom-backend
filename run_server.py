@@ -26,3 +26,10 @@ async def get_song_pitches(song_id: int):
     pitches = [pitch if not math.isnan(pitch) else -1 for pitch in pitches]
     assert isinstance(pitches, list)
     return pitches
+
+
+@app.get("/user_songs")
+async def get_user_songs():
+    with open("server_data/user_songs.json") as f:
+        songs_data = json.load(f)
+    return songs_data
