@@ -5,3 +5,4 @@ models/
 **/.ipynb_checkpoints
 **/*.wav
 **/*.ogg
+.idea/

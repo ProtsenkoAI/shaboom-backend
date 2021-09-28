@@ -3,7 +3,6 @@ from starlette.responses import StreamingResponse
 import io
 import json
 import math
-
 from typing import List
 
 app = FastAPI()
