@@ -2,7 +2,7 @@
 
 ## About
 
-This repository contains the backend & research code of the ShaBoom project. If you want to read about the project, refer to [this link](https://github.com/ProtsenkoAI/shaboom-backend).
+This repository contains the backend & research code of the ShaBoom project. If you want to read about the project, refer to [this link](https://github.com/ProtsenkoAI/shaboom-app).
 
 1. process_song.py is a starting file to get pitches for the song file
 2. run_server.py is a FastAPI server file
