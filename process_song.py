@@ -1,5 +1,5 @@
 import sys
-from argparse import ArgumentParser, ArgumentTypeError, RawDescriptionHelpFormatter
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from typing import List
 
 import numpy as np

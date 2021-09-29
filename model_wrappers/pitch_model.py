@@ -16,7 +16,8 @@ class PitchModel:
         """
         self.model_sr = 16000
         self.model_inp_size = 1024
-        self.model = self._build_and_load_model("full", "../models/model-full.h5")
+        # TODO: add model path to configuration
+        self.model = self._build_and_load_model("full", "./models/model-full.h5")
 
         self.batch_size = batch_size
         self.pitch_thresh = pitch_thresh
@@ -32,16 +33,20 @@ class PitchModel:
             pitches += list(batch_pitch)
             confidences += list(batch_confidence)
 
-        pitches = np.array(pitches)
-        confidences = np.array(confidences)
+        pitches = np.array(pitches, dtype=np.float)
+        confidences = np.array(confidences, dtype=np.float)
 
-        pitches[confidences < 0.65] = None
+        print("confidences", confidences)
+        print(confidences < 0.65)
+        print(pitches[confidences < 0.65])
+
+        pitches[confidences < 0.65] = np.nan
 
         pitches = pitches.astype(np.float32)
         pitches = [elem for elem in pitches]
         return pitches
 
-    def detect_pitch(self, signal, pitch_model):
+    def detect_pitch(self, signal):
         split_idxs = np.arange(self.model_inp_size, len(signal), self.model_inp_size)
         frames = np.split(signal, split_idxs)
 
@@ -54,7 +59,7 @@ class PitchModel:
             frames[-1] = np.concatenate([np.zeros((left_zeros, 1)), last, np.zeros((right_zeros, 1))])
 
         frames = np.concatenate(frames, axis=1)
-        frames = frames.transpose(1, 0)  # had shape (1024, n_samples), converted to (n_samples, 1024)
+        frames = frames.transpose((1, 0))  # had shape (1024, n_samples), converted to (n_samples, 1024)
 
         # normalize each frame -- this is expected by the model
         frames -= np.mean(frames, axis=1)[:, np.newaxis]
@@ -62,7 +67,7 @@ class PitchModel:
         std[std == 0] = 1e-10
         frames /= std
 
-        model_preds = pitch_model(frames, training=False)  # , workers=-1, use_multiprocessing=True)
+        model_preds = self.model(frames, training=False)  # , workers=-1, use_multiprocessing=True)
         model_preds = model_preds.numpy()
 
         # initially has out shape (length, 360), reducing

@@ -2,7 +2,7 @@ import torch
 import librosa
 import numpy as np
 import torchaudio
-from torch import functional as F
+from torch.nn import functional as F
 
 
 class VADModel:
@@ -26,6 +26,7 @@ class VADModel:
         pure_tone = librosa.tone(frequency=filling_freq, sr=sample_rate, length=len(mono_vocals))
 
         mono_vocals[~activity_mask] = pure_tone[~activity_mask]
+        return mono_vocals
 
     def get_voice_activity_mask(self, wav, sr, thresh=0.02):
         transform = torchaudio.transforms.Resample(orig_freq=sr,
